@@ -6,7 +6,7 @@ import (
 )
 
 func TestRepeatChar(t *testing.T) {
-	got := RepeatChar("a")
+	got := RepeatChar("a", 5)
 	expected := "aaaaa"
 
 	if got != expected {
@@ -14,13 +14,13 @@ func TestRepeatChar(t *testing.T) {
 	}
 }
 func ExampleRepeatChar() {
-	repeatedString := RepeatChar("a")
+	repeatedString := RepeatChar("a", 5)
 	fmt.Println(repeatedString)
 	// output aaaaa
 }
 
 func BenchmarkRepeatChar(b *testing.B) {
 	for range b.N {
-		RepeatChar("a")
+		RepeatChar("a", 5)
 	}
 }
