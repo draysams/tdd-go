@@ -35,6 +35,22 @@ func TestAdd(t *testing.T) {
 	})
 
 }
+func TestUpdate(t *testing.T) {
+	t.Run("existing word", func(t *testing.T) {
+		newDefinition := "production test"
+		dictionary := Dictionary{dictionaryWord: dictionaryDefinition}
+		dictionary.Update(dictionaryWord, newDefinition)
+		assertDefinition(t, dictionary, dictionaryWord, newDefinition)
+	})
+
+	t.Run("unknown word", func(t *testing.T) {
+		newWord := "unknown"
+		dictionary := Dictionary{}
+		err := dictionary.Update(newWord, dictionaryDefinition)
+		assertError(t, err, ErrorWordDoesNotExist)
+	})
+
+}
 
 func assertDefinition(t testing.TB, dictionary Dictionary, word, want string) {
 	t.Helper()
@@ -44,7 +60,7 @@ func assertDefinition(t testing.TB, dictionary Dictionary, word, want string) {
 	}
 
 	if got != want {
-		t.Fatal("should find added word ", err)
+		t.Errorf("wanted '%s' got '%s', given word '%s' ", got, want, word)
 	}
 
 }
