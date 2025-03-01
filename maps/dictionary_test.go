@@ -2,28 +2,39 @@ package maps
 
 import "testing"
 
+var dictionaryWord = "test"
+var dictionaryDefinition = "this is a test"
+
 func TestSearch(t *testing.T) {
-	dictionary := Dictionary{"test": "this is a test"}
+	dictionary := Dictionary{dictionaryWord: dictionaryDefinition}
 	t.Run("known word", func(t *testing.T) {
-
-		got, _ := dictionary.Search("test")
 		want := "this is a test"
-
-		assertStrings(t, got, want)
+		assertDefinition(t, dictionary, "test", want)
 	})
 
 	t.Run("unknown word", func(t *testing.T) {
 		_, err := dictionary.Search("unknown")
 		want := ErrorNotFound
-
 		assertError(t, err, want)
 	})
 }
 
-func assertStrings(t testing.TB, got string, want string) {
+func TestAdd(t *testing.T) {
+	dictionary := Dictionary{}
+	dictionary.Add(dictionaryWord, dictionaryDefinition)
+	want := dictionaryDefinition
+	assertDefinition(t, dictionary, dictionaryWord, want)
+}
+
+func assertDefinition(t testing.TB, dictionary Dictionary, word, want string) {
 	t.Helper()
+	got, err := dictionary.Search(word)
+	if err != nil {
+		t.Fatal("didn't expect an error but received", want)
+	}
+
 	if got != want {
-		t.Errorf("got %q want %q, given %q", got, want, "test")
+		t.Fatal("should find added word ", err)
 	}
 
 }
