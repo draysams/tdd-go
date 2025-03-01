@@ -20,10 +20,20 @@ func TestSearch(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	dictionary := Dictionary{}
-	dictionary.Add(dictionaryWord, dictionaryDefinition)
-	want := dictionaryDefinition
-	assertDefinition(t, dictionary, dictionaryWord, want)
+	t.Run("new word", func(t *testing.T) {
+		dictionary := Dictionary{}
+		dictionary.Add(dictionaryWord, dictionaryDefinition)
+		want := dictionaryDefinition
+		assertDefinition(t, dictionary, dictionaryWord, want)
+	})
+
+	t.Run("existing word", func(t *testing.T) {
+		dictionary := Dictionary{dictionaryWord: dictionaryDefinition}
+		err := dictionary.Add(dictionaryWord, "new word")
+		assertError(t, err, ErrorWordExists)
+		assertDefinition(t, dictionary, dictionaryWord, dictionaryDefinition)
+	})
+
 }
 
 func assertDefinition(t testing.TB, dictionary Dictionary, word, want string) {
