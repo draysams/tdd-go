@@ -24,3 +24,7 @@ func (w *Wallet) Deposit(amount Bitcoin) {
 	fmt.Printf("in deposit address of my balance %p \n", &w.balance)
 	w.balance += amount
 }
+
+func (w *Wallet) Withdraw(amount Bitcoin) {
+	w.balance -= amount
+}
